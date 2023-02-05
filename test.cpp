@@ -10,12 +10,13 @@ class Procedure{
  public:
  int procedureNumber;
  
- unordered_map<int, bool> cottonId;
+ unordered_map< int, bool > cottonId;
 
 
- bool findCottonId( int tempCottonId ){
+ bool findCottonId( int cottonIdToAddOrRemove )
+ {
 
-  if(cottonId.count(tempCottonId) == true)
+  if(cottonId.count( cottonIdToAddOrRemove ) == true)
   {
     return true;
   }
@@ -26,74 +27,87 @@ class Procedure{
 
  }
 
- void addCottonId ( int tempcottonId ){
-  cottonId[tempcottonId] = true;
+ void addCottonId ( int cottonIdToAddOrRemove )
+ {
+  cottonId[ cottonIdToAddOrRemove ] = true;
  }
 
- void removeCottonId ( int tempCottonId ) {
+ void removeCottonId ( int cottonIdToAddOrRemove ) 
+ {
 
-  cottonId[tempCottonId]=false;
-  writeData(tempCottonId,cottonId[tempCottonId]);
-  cottonId.erase( tempCottonId );
+  cottonId[ cottonIdToAddOrRemove ] = false;
+  writeData( cottonIdToAddOrRemove,cottonId[ cottonIdToAddOrRemove ]);
+  cottonId.erase( cottonIdToAddOrRemove );
 
  }
 
- bool endProcedure(){
+ bool endProcedure ()
+ {
 
-  if(cottonId.size()==false){
-     
+  if( cottonId.size() == false )
+  {
     return false;
-    
-  }else{
+  } else 
+  {
     return true;
   }
 
  }
 
- void writeData(int tempCottonId, int state){
-  ofstream file("output.txt",std::ios::app);
+ void writeData( int cottonIdToAddOrRemove , int state )
+ {
+  ofstream file( "output.txt" , std::ios::app );
 
-  if(file.is_open()== true){
-
-      file<<tempCottonId<<"\t"<< state<< endl;
-
+  if( file.is_open() == true )
+  {
+      file<<cottonIdToAddOrRemove<<"\t"<< state<< endl;
   }
   file.close();
  }
 
- void forceWriteData(){
+ void forceWriteData()
+ {
  
- for(auto it: cottonId){
-  ofstream file("output.txt",std::ios::app);
-  if(file.is_open()== true){
+ for( auto it: cottonId )
+ {
+  ofstream file( "output.txt" , std::ios::app );
+
+  if( file.is_open()== true )
+  {
     file<<it.first<< "\t"<< it.second<<endl;
   }
-  getCurrentDateAndTime();
   file.close();
  }
+  getCurrentDateAndTime();
 
  }
 
- void createFileWithProcedureNumber(int procedureNumber){
+ void createFileWithProcedureNumber(int procedureNumber)
+ {
 
  ofstream file("output.txt");
  if(file.is_open()==true){
   file<<"PROCEDURE NUMBER: "<<procedureNumber<<endl;
+
  }
  }
 
-void getCurrentDateAndTime(){
+void getCurrentDateAndTime()
+{
   time_t currentTime;
-  time(&currentTime);
-  ofstream file("output.txt",std::ios::app);
-  if(file.is_open()==true){
-    file<<ctime(&currentTime)<<endl;
+  time( &currentTime );
+  ofstream file( "output.txt",std::ios::app );
+  if( file.is_open() == true )
+  {
+    file << ctime( &currentTime ) <<endl;
   }
   file.close();
 }
-void createTable(){
-  ofstream file("output.txt",std::ios::app);
-  if(file.is_open()==true){
+void createTable()
+{
+  ofstream file( "output.txt" , std::ios::app );
+  if( file.is_open() == true )
+  {
     file<<"COTTON-ID"<<"\t"<<"STATE"<<endl;
   }
   file.close();
@@ -104,6 +118,7 @@ void createTable(){
 
 
 
+
 int main() {
  
 Procedure patient; 
@@ -111,40 +126,45 @@ Procedure patient;
 cout<<"Enter the procedure id"<<endl;
 cin>>patient.procedureNumber;
 
-patient.createFileWithProcedureNumber(patient.procedureNumber);
+patient.createFileWithProcedureNumber( patient.procedureNumber );
 patient.getCurrentDateAndTime();
 patient.createTable();
-while (true) {
+while ( true )
+{
 
-int tempCottonId;
-cout<<"-> Enter cotton ID // \n-> To end procedure enter 0\n-> To force stop enter -1\n ";
-cin>>tempCottonId;
+int cottonIdToAddOrRemove;
+cout<<"-> Enter cotton ID // \n-> To end procedure enter 0\n-> To force stop enter -1\t\t Number Of Cotton In Use: "<<patient.cottonId.size()<<endl;
+cin>>cottonIdToAddOrRemove;
 
-if(tempCottonId==0){
+if( cottonIdToAddOrRemove == 0 )
+{
    if( patient.endProcedure() == true ){
-    //as cottons are still presenT
+    //as cottons are still present
     continue;
  }
- else {
+ else 
+ {
   patient.getCurrentDateAndTime();
   break;
  }
-}else if(tempCottonId == -1){
+}
+else if(cottonIdToAddOrRemove == -1)
+{
 patient.forceWriteData();
-
   break;
 }
-else if( patient.findCottonId( tempCottonId ) == false ){
+else if( patient.findCottonId( cottonIdToAddOrRemove ) == false )
+{
 
-  patient.addCottonId( tempCottonId );
-
-}else if(patient.findCottonId( tempCottonId ) == true){
-
-patient.removeCottonId( tempCottonId );
+  patient.addCottonId( cottonIdToAddOrRemove );
 
 }
+else if(patient.findCottonId( cottonIdToAddOrRemove ) == true)
+{
 
+patient.removeCottonId( cottonIdToAddOrRemove );
 
+}
 }
 return 0;
 
