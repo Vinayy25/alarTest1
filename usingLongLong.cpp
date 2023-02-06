@@ -8,12 +8,12 @@ using namespace std;
 
 class Procedure{
  public:
- int procedureNumber;
+ long long procedureNumber;
  
- unordered_map< int, bool > cottonId;
+ unordered_map< long long, bool > cottonId;
 
 
- bool findCottonId( int cottonIdToAddOrRemove )
+ bool findCottonId( long long cottonIdToAddOrRemove )
  {
 
   if(cottonId.count( cottonIdToAddOrRemove ) == true)
@@ -27,12 +27,12 @@ class Procedure{
 
  }
 
- void addCottonId ( int cottonIdToAddOrRemove )
+ void addCottonId ( long long cottonIdToAddOrRemove )
  {
   cottonId[ cottonIdToAddOrRemove ] = true;
  }
 
- void removeCottonId ( int cottonIdToAddOrRemove ) 
+ void removeCottonId ( long long cottonIdToAddOrRemove ) 
  {
 
   cottonId[ cottonIdToAddOrRemove ] = false;
@@ -54,7 +54,7 @@ class Procedure{
 
  }
 
- void writeData( int cottonIdToAddOrRemove , int state )
+ void writeData( long long cottonIdToAddOrRemove , bool state )
  {
   ofstream file( "output.txt" , std::ios::app );
 
@@ -82,13 +82,13 @@ class Procedure{
 
  }
 
- void createFileWithProcedureNumber( int procedureNumber )
+ void createFileWithProcedureNumber( long long procedureNumber )
  {
 
  ofstream file("output.txt");
- if(file.is_open()==true){
+ if( file.is_open() == true )
+ {
   file<<"PROCEDURE NUMBER: "<<procedureNumber<<endl;
-
  }
  }
 
@@ -132,7 +132,7 @@ patient.createTable();
 while ( true )
 {
 
-int cottonIdToAddOrRemove;
+long long cottonIdToAddOrRemove;
 cout<<"-> Enter cotton ID\n-> To end procedure enter 0\n-> To force stop enter -1\t\t Number Of Cotton In Use: "<<patient.cottonId.size()<<endl;
 cin>>cottonIdToAddOrRemove;
 

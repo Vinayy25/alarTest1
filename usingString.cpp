@@ -2,18 +2,20 @@
 #include<unordered_map>
 #include<fstream>
 #include<ctime>
+#include<string>
+
 
 using namespace std;
 
 
 class Procedure{
  public:
- int procedureNumber;
+ string procedureNumber;
  
- unordered_map< int, bool > cottonId;
+ unordered_map < string, bool > cottonId ;
 
 
- bool findCottonId( int cottonIdToAddOrRemove )
+ bool findCottonId( string cottonIdToAddOrRemove )
  {
 
   if(cottonId.count( cottonIdToAddOrRemove ) == true)
@@ -27,12 +29,12 @@ class Procedure{
 
  }
 
- void addCottonId ( int cottonIdToAddOrRemove )
+ void addCottonId ( string cottonIdToAddOrRemove )
  {
   cottonId[ cottonIdToAddOrRemove ] = true;
  }
 
- void removeCottonId ( int cottonIdToAddOrRemove ) 
+ void removeCottonId ( string cottonIdToAddOrRemove ) 
  {
 
   cottonId[ cottonIdToAddOrRemove ] = false;
@@ -54,7 +56,7 @@ class Procedure{
 
  }
 
- void writeData( int cottonIdToAddOrRemove , int state )
+ void writeData( string cottonIdToAddOrRemove , bool state )
  {
   ofstream file( "output.txt" , std::ios::app );
 
@@ -82,13 +84,13 @@ class Procedure{
 
  }
 
- void createFileWithProcedureNumber( int procedureNumber )
+ void createFileWithProcedureNumber( string procedureNumber )
  {
 
  ofstream file("output.txt");
- if(file.is_open()==true){
+ if( file.is_open() == true ) 
+ {
   file<<"PROCEDURE NUMBER: "<<procedureNumber<<endl;
-
  }
  }
 
@@ -132,11 +134,11 @@ patient.createTable();
 while ( true )
 {
 
-int cottonIdToAddOrRemove;
+string cottonIdToAddOrRemove;
 cout<<"-> Enter cotton ID\n-> To end procedure enter 0\n-> To force stop enter -1\t\t Number Of Cotton In Use: "<<patient.cottonId.size()<<endl;
 cin>>cottonIdToAddOrRemove;
 
-if( cottonIdToAddOrRemove == 0 )
+if( cottonIdToAddOrRemove == "0" )
 {
    if( patient.endProcedure() == true ){
     //as cottons are still present
@@ -148,7 +150,7 @@ if( cottonIdToAddOrRemove == 0 )
   break;
  }
 }
-else if(cottonIdToAddOrRemove == -1)
+else if(cottonIdToAddOrRemove == "-1")
 {
 patient.forceWriteData();
   break;
@@ -165,7 +167,7 @@ else if(patient.findCottonId( cottonIdToAddOrRemove ) == true)
 patient.removeCottonId( cottonIdToAddOrRemove );
 
 }
-}
+} 
 return 0;
 
 }
