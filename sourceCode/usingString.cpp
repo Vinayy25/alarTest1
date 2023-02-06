@@ -14,7 +14,7 @@ class Procedure{
  
  unordered_map < string, bool > cottonId ;
 
-
+//search cotton id in the list 
  bool findCottonId( string cottonIdToAddOrRemove )
  {
 
@@ -28,12 +28,13 @@ class Procedure{
   }
 
  }
-
+//add new cotton id to the list
  void addCottonId ( string cottonIdToAddOrRemove )
  {
   cottonId[ cottonIdToAddOrRemove ] = true;
  }
 
+//remove cotton id from the list 
  void removeCottonId ( string cottonIdToAddOrRemove ) 
  {
 
@@ -43,6 +44,7 @@ class Procedure{
 
  }
 
+//check if the procedure can be ended 
  bool endProcedure ()
  {
 
@@ -56,6 +58,7 @@ class Procedure{
 
  }
 
+//to add data too the current output.txt file 
  void writeData( string cottonIdToAddOrRemove , bool state )
  {
   ofstream file( "output.txt" , std::ios::app );
@@ -67,6 +70,8 @@ class Procedure{
   file.close();
  }
 
+
+// force write data in case all cottons arent removed 
  void forceWriteData()
  {
  
@@ -84,6 +89,7 @@ class Procedure{
 
  }
 
+// create a new output.txt file 
  void createFileWithProcedureNumber( string procedureNumber )
  {
 
@@ -94,6 +100,7 @@ class Procedure{
  }
  }
 
+// gerenete current time and date 
 void getCurrentDateAndTime()
 {
   time_t currentTime;
@@ -105,6 +112,8 @@ void getCurrentDateAndTime()
   }
   file.close();
 }
+
+// create table view 
 void createTable()
 {
   ofstream file( "output.txt" , std::ios::app );
@@ -126,18 +135,22 @@ int main() {
 Procedure patient; 
 
 cout<<"Enter the procedure id"<<endl;
+// input the procredure number 
 cin>>patient.procedureNumber;
 
 patient.createFileWithProcedureNumber( patient.procedureNumber );
 patient.getCurrentDateAndTime();
 patient.createTable();
+
+// loop runs until a break is forced to end porcedure 
 while ( true )
 {
 
 string cottonIdToAddOrRemove;
 cout<<"-> Enter cotton ID\n-> To end procedure enter 0\n-> To force stop enter -1\t\t Number Of Cotton In Use: "<<patient.cottonId.size()<<endl;
+//to input cotton Id
 cin>>cottonIdToAddOrRemove;
-
+//ends the procedure if there are no cottons remaining 
 if( cottonIdToAddOrRemove == "0" )
 {
    if( patient.endProcedure() == true ){
@@ -150,18 +163,21 @@ if( cottonIdToAddOrRemove == "0" )
   break;
  }
 }
+// force stop the procedure no matter how many cottons are there and update it in the output.txt file 
 else if(cottonIdToAddOrRemove == "-1")
 {
 patient.forceWriteData();
   break;
 }
+// adds cotton id to list if its not present in the list 
 else if( patient.findCottonId( cottonIdToAddOrRemove ) == false )
 {
 
   patient.addCottonId( cottonIdToAddOrRemove );
 
 }
-else if(patient.findCottonId( cottonIdToAddOrRemove ) == true)
+// removes cotton from the list if already present  
+else if( patient.findCottonId( cottonIdToAddOrRemove ) == true  )
 {
 
 patient.removeCottonId( cottonIdToAddOrRemove );
